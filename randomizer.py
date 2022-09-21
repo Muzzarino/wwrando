@@ -387,6 +387,8 @@ class Randomizer:
         tweaks.enable_developer_mode(self)
       if self.heap_display:
         tweaks.enable_heap_display(self)
+
+      patcher.apply_patch(self, "open_matte_mode")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
