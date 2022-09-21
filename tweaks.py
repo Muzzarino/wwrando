@@ -99,7 +99,7 @@ def fix_deku_leaf_model(self):
     actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
     actor.item_id = 0x34 # Deku Leaf
     actor.item_pickup_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
-    actor.activation_switch_index = 0xFF # Necessary for the item to be pickupable.
+    actor.enable_activation_switch = 0xFF # Necessary for the item to be pickupable.
     actor.save_changes()
 
 def allow_all_items_to_be_field_items(self):
@@ -1519,7 +1519,7 @@ def disable_invisible_walls(self):
   # Remove an invisible wall in the second room of DRC.
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
-  invisible_wall.switch_index = 0xFF
+  invisible_wall.disable_spawn_switch = 0xFF
   invisible_wall.save_changes()
 
 def update_skip_rematch_bosses_game_variable(self):
@@ -1702,14 +1702,14 @@ def implement_key_bag(self):
   # To do this new text commands are implemented to show the dynamic numbers. There are 5 new commands, 0x4B to 0x4F, one for each dungeon. (Forsaken Fortress and Ganon's Tower are not included as they have no keys.)
   
   self.bmg.messages_by_id[403].string = "Key Bag"
-  str = "A handy bag for holding your keys!\n"
-  str += "Here's how many you've got with you:\n"
-  str += "DRC: \\{1A 05 00 00 4B}    "
-  str += "FW: \\{1A 05 00 00 4C}    "
-  str += "TotG: \\{1A 05 00 00 4D}\n"
-  str += "ET: \\{1A 05 00 00 4E}      "
-  str += "WT: \\{1A 05 00 00 4F}"
-  self.bmg.messages_by_id[603].string = str
+  description = "A handy bag for holding your keys!\n"
+  description += "Here's how many you've got with you:\n"
+  description += "DRC: \\{1A 05 00 00 4B}    "
+  description += "FW: \\{1A 05 00 00 4C}    "
+  description += "TotG: \\{1A 05 00 00 4D}\n"
+  description += "ET: \\{1A 05 00 00 4E}      "
+  description += "WT: \\{1A 05 00 00 4F}"
+  self.bmg.messages_by_id[603].string = description
   
   itemicons_arc = self.get_arc("files/res/Msg/itemicon.arc")
   pirate_charm_icon = itemicons_arc.get_file("amulet_00.bti")
